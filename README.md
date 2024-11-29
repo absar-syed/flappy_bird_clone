@@ -1,24 +1,21 @@
 # flappy_bird_clone
 
-A new Flutter project.
+Our mobile dev project!
 
-## Getting Started
+<br>
 
-This project is a starting point for a Flutter application.
+if you're using visual studio you need to run this command to launch your emulator
 
-A few resources to get you started if this is your first Flutter project:
+flutter emulators --launch <"NAME OF YOUR EMULATOR">
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<br>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+to find your emulator name use this command:
 
+flutter emulators 
 
+<br>
 
-things ive done so far to keep record:
-- added flame dependecy, flutter pub add flame
-- updated all dependencies, flutter pub upgrade --major-versions
-- added 4 bird sprite sheets to assest/images and 4 sky backgroundsto assets/tiles
-- 
+to run the app:
+
+flutter run
