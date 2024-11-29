@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Flame.device.fullScreen;
-  Flame.device.setPortraitUpOnly;
+  Flame.device.fullScreen();
+  Flame.device.setPortraitUpOnly();
   runApp(MyApp());
 }
 

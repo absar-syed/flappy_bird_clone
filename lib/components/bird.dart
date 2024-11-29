@@ -3,7 +3,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 
 class Bird extends SpriteAnimationComponent {
-  Bird() : super(size: Vector2(100, 120), anchor: Anchor.center);
+  Bird() : super(size: Vector2(60, 80), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
