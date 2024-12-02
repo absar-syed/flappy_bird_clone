@@ -32,7 +32,7 @@ class Pipes extends PositionComponent {
 
 
 class PipePair extends PositionComponent {
-  PipePair({required super.position, this.gap = 125, this.speed = 2});
+  PipePair({required super.position, this.gap = 125, this.speed = 100});
 
   final double gap;
 
@@ -56,6 +56,6 @@ class PipePair extends PositionComponent {
   @override
   void update(double dt) {
     super.update(dt);
-    position.x -= speed;
+    position.x -= speed * dt;
   }
 }

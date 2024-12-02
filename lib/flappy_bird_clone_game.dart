@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
@@ -10,8 +11,8 @@ class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld> {
 }
 
 //World Class
-class FlappyBirdCloneWorld extends World with HasGameRef<FlappyBirdCloneGame>{
-
+class FlappyBirdCloneWorld extends World
+    with TapCallbacks, HasGameRef<FlappyBirdCloneGame> {
   late Bird _bird;
   late PipePair _lastPipe;
 
@@ -25,30 +26,36 @@ class FlappyBirdCloneWorld extends World with HasGameRef<FlappyBirdCloneGame>{
     //  game.camera.viewfinder.zoom = 0.05;
   }
 
-  void _generatePipes({double distance = 250}){
+  void _generatePipes({double distance = 250}) {
     for (var i = 1; i < 5; i++) {
       const area = 600;
-      final y = (Random().nextDouble() * area) - (area  / 2);
-      add( _lastPipe = PipePair(position: Vector2( i * distance, y))); 
+      final y = (Random().nextDouble() * area) - (area / 2);
+      add(_lastPipe = PipePair(position: Vector2(i * distance, y)));
     }
-  }  
+  }
 
-  void _removePipes(){
+  void _removePipes() {
     final pipes = children.whereType<PipePair>();
     final remove = max(pipes.length - 5, 0);
-    pipes.take(remove).forEach((pipe){
+    pipes.take(remove).forEach((pipe) {
       pipe.removeFromParent();
     });
-  } 
+  }
 
   @override
   void update(double dt) {
     super.update(dt);
-    
-    if (_bird.x >= _lastPipe.x){
+
+    if (_bird.x >= _lastPipe.x) {
       _generatePipes();
     }
     _removePipes();
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
+    _bird.jump();
   }
 }
 
