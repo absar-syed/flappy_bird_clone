@@ -4,7 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
-import 'package:flame/text.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
@@ -15,6 +15,15 @@ class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
   FlappyBirdCloneGame(this.gameCubit) : super(world: FlappyBirdCloneWorld());
 
   final GameCubit gameCubit;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    FlameAudio.bgm.initialize();
+    await FlameAudio.audioCache.loadAll(['8-bit.mp3', 'coin.mp3']);
+    FlameAudio.bgm.stop();
+    FlameAudio.bgm.play('8-bit.mp3', volume: 0.7);
+  }
 }
 
 //World Class
@@ -110,24 +119,13 @@ class FlappyBirdCloneRootComponent extends Component
   void update(double dt) {
     super.update(dt);
 
-    // if (bloc.state.currentPlayingState == PlayingState.playing &&
-    //     !_totalCoins.isMounted) {
-    //   // Ensure it's added only once
-    //   game.camera.viewfinder.add(_totalCoins = TextComponent(
-    //     anchor: Anchor.topCenter,
-    //     position: Vector2(0, -(game.size.y / 2) + 10),
-    //     size: Vector2.all(50),
-    //   ));
-
-      if (bloc.state.currentPlayingState == PlayingState.playing) {
-        _totalCoins.text = "Coins: ${bloc.state.currentCoins}";
-      }
-      
-
-      if (_bird.x >= _lastPipe.x) {
-        _generatePipes();
-      }
-      _removePipes();
+    if (bloc.state.currentPlayingState == PlayingState.playing) {
+      _totalCoins.text = "Coins: ${bloc.state.currentCoins}";
     }
-  }
 
+    if (_bird.x >= _lastPipe.x) {
+      _generatePipes();
+    }
+    _removePipes();
+  }
+}

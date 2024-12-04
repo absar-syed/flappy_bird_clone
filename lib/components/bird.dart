@@ -2,6 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/components/coin.dart';
@@ -63,9 +64,12 @@ class Bird extends SpriteAnimationComponent
       return;
     }
     if (other is Coin) {
+      FlameAudio.play('coin.mp3');
       bloc.increaseCoins();
       other.removeFromParent();
     } else if (other is Pipes) {
+      FlameAudio.bgm.stop();
+      FlameAudio.play('gameover.mp3');
       bloc.gameOver();
     }
   }
