@@ -1,33 +1,79 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
 import 'package:flappy_bird_clone/components/pipes.dart';
 
 class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
     with HasCollisionDetection {
-  FlappyBirdCloneGame() : super(world: FlappyBirdCloneWorld());
+  FlappyBirdCloneGame(this.gameCubit) : super(world: FlappyBirdCloneWorld());
+
+  final GameCubit gameCubit;
 }
 
 //World Class
 class FlappyBirdCloneWorld extends World
     with TapCallbacks, HasGameRef<FlappyBirdCloneGame> {
-  late Bird _bird;
-  late PipePair _lastPipe;
-  int _coins = 0;
-  late TextComponent _totalCoins;
-  // var _totalCoins;
+  late FlappyBirdCloneRootComponent _rootComponent;
+  late TapDownEvent event;
 
+  @override
+  void onLoad() {
+    super.onLoad();
+    add(FlameBlocProvider<GameCubit, GameState>(
+        create: () => game.gameCubit,
+        children: [_rootComponent = FlappyBirdCloneRootComponent()]));
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
+    _rootComponent.onTapDown(event);
+  }
+}
+
+class WorldBackground extends ParallaxComponent<FlappyBirdCloneGame> with FlameBlocReader<GameCubit, GameState>{
+  
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    anchor = Anchor.center;
+    parallax = await game.loadParallax([ParallaxImageData('sky.png')],
+        baseVelocity: Vector2(75, 0));
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (bloc.state.currentPlayingState == PlayingState.gameOver) {
+      parallax?.baseVelocity = Vector2.all(0);
+    }
+  }
+}
+
+class FlappyBirdCloneRootComponent extends Component
+    with
+        HasGameRef<FlappyBirdCloneGame>,
+        FlameBlocReader<GameCubit, GameState> {
+  late Bird _bird;
+  late PipePair _lastPipe;
+  late TextComponent _totalCoins;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     add(WorldBackground());
     _generatePipes();
     add(_bird = Bird());
     game.camera.viewfinder.add(_totalCoins = TextComponent(
-        text: "Coins: $_coins", position: Vector2(0, -(game.size.y / 2)), size: Vector2.all(40)));
+        anchor: Anchor.topCenter,
+        position: Vector2(0, -(game.size.y / 2) + 10),
+        size: Vector2.all(50)));
     //  game.camera.viewfinder.zoom = 0.05;
   }
 
@@ -47,34 +93,24 @@ class FlappyBirdCloneWorld extends World
     });
   }
 
-  void increaseCoins() {
-    _coins += 1;
+  void onTapDown(TapDownEvent event) {
+    tapToStart();
+    _bird.jump();
+  }
+
+  void tapToStart() {
+    if (bloc.state.currentPlayingState == PlayingState.none) {
+      bloc.startPlaying();
+    }
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    _totalCoins.text = "Coins: $_coins";
+    _totalCoins.text = "Coins: ${bloc.state.currentCoins}";
     if (_bird.x >= _lastPipe.x) {
       _generatePipes();
     }
     _removePipes();
-
-    
-  }
-
-  @override
-  void onTapDown(TapDownEvent event) {
-    super.onTapDown(event);
-    _bird.jump();
-  }
-}
-
-class WorldBackground extends ParallaxComponent<FlappyBirdCloneGame> {
-  @override
-  Future<void> onLoad() async {
-    anchor = Anchor.center;
-    parallax = await game.loadParallax([ParallaxImageData('sky.png')],
-        baseVelocity: Vector2(75, 0));
   }
 }

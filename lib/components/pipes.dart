@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/components/coin.dart';
 
 class Pipes extends PositionComponent {
-
-  Pipes({
-    required this.flippedPipe, 
-    required super.position
-  });
+  Pipes({required this.flippedPipe, required super.position});
 
   late Sprite _pipeSprite;
   final bool flippedPipe;
@@ -23,9 +21,11 @@ class Pipes extends PositionComponent {
     if (flippedPipe) {
       flipVertically();
     }
-    add(RectangleHitbox( size: Vector2(size.x * 0.75, size.y), position: Vector2(8, 10), collisionType: CollisionType.passive));
+    add(RectangleHitbox(
+        size: Vector2(size.x * 0.75, size.y),
+        position: Vector2(8, 10),
+        collisionType: CollisionType.passive));
     // debugMode = true;
-
   }
 
   @override
@@ -35,8 +35,8 @@ class Pipes extends PositionComponent {
   }
 }
 
-
-class PipePair extends PositionComponent with CollisionCallbacks {
+class PipePair extends PositionComponent
+    with FlameBlocReader<GameCubit, GameState> {
   PipePair({required super.position, this.gap = 125, this.speed = 100});
 
   final double gap;
@@ -44,25 +44,27 @@ class PipePair extends PositionComponent with CollisionCallbacks {
   final double speed;
 
   @override
-  void onLoad() {
-    super.onLoad();
+  Future<void> onLoad() async {
+    await super.onLoad();
     addAll([
-      Pipes(
-        flippedPipe: true, 
-        position: Vector2(0, -gap)
-      ), 
-      Pipes(
-        flippedPipe: false, 
-        position: Vector2(0, gap)
-      ),
+      Pipes(flippedPipe: true, position: Vector2(0, -gap)),
+      Pipes(flippedPipe: false, position: Vector2(0, gap)),
       Coin(position: Vector2.all(0))
     ]);
-
   }
 
   @override
   void update(double dt) {
+    switch (bloc.state.currentPlayingState) {
+      case PlayingState.none:
+        break;
+      case PlayingState.paused:
+      case PlayingState.gameOver:
+        break;
+      case PlayingState.playing:
+        position.x -= speed * dt;
+        break;
+    }
     super.update(dt);
-    position.x -= speed * dt;
   }
 }

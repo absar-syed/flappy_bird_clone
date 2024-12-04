@@ -1,6 +1,8 @@
 import 'package:flame/flame.dart';
+import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/main_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +16,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flappy Bird Clone',
-      home: MainPage(),
-    );
+    return BlocProvider(
+        create: (BuildContext context) => GameCubit(),
+        child: const MaterialApp(title: "Flappy Bird Clone", home: MainPage()));
   }
 }
