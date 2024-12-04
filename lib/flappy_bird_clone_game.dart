@@ -6,7 +6,8 @@ import 'package:flame/parallax.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
 import 'package:flappy_bird_clone/components/pipes.dart';
 
-class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld> {
+class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
+    with HasCollisionDetection {
   FlappyBirdCloneGame() : super(world: FlappyBirdCloneWorld());
 }
 
@@ -15,14 +16,18 @@ class FlappyBirdCloneWorld extends World
     with TapCallbacks, HasGameRef<FlappyBirdCloneGame> {
   late Bird _bird;
   late PipePair _lastPipe;
+  int _coins = 0;
+  late TextComponent _totalCoins;
+  // var _totalCoins;
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
     add(WorldBackground());
-    add(_bird = Bird());
     _generatePipes();
-
+    add(_bird = Bird());
+    game.camera.viewfinder.add(_totalCoins = TextComponent(
+        text: "Coins: $_coins", position: Vector2(0, -(game.size.y / 2)), size: Vector2.all(40)));
     //  game.camera.viewfinder.zoom = 0.05;
   }
 
@@ -42,14 +47,20 @@ class FlappyBirdCloneWorld extends World
     });
   }
 
+  void increaseCoins() {
+    _coins += 1;
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
-
+    _totalCoins.text = "Coins: $_coins";
     if (_bird.x >= _lastPipe.x) {
       _generatePipes();
     }
     _removePipes();
+
+    
   }
 
   @override

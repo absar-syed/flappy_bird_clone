@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flappy_bird_clone/components/coin.dart';
 
 class Pipes extends PositionComponent {
 
@@ -21,6 +23,9 @@ class Pipes extends PositionComponent {
     if (flippedPipe) {
       flipVertically();
     }
+    add(RectangleHitbox( size: Vector2(size.x * 0.75, size.y), position: Vector2(8, 10), collisionType: CollisionType.passive));
+    // debugMode = true;
+
   }
 
   @override
@@ -31,7 +36,7 @@ class Pipes extends PositionComponent {
 }
 
 
-class PipePair extends PositionComponent {
+class PipePair extends PositionComponent with CollisionCallbacks {
   PipePair({required super.position, this.gap = 125, this.speed = 100});
 
   final double gap;
@@ -49,8 +54,10 @@ class PipePair extends PositionComponent {
       Pipes(
         flippedPipe: false, 
         position: Vector2(0, gap)
-      )
+      ),
+      Coin(position: Vector2.all(0))
     ]);
+
   }
 
   @override
