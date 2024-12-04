@@ -6,6 +6,8 @@ import 'package:flame/parallax.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
 import 'package:flappy_bird_clone/components/pipes.dart';
 
+
+
 class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
     with HasCollisionDetection {
   FlappyBirdCloneGame() : super(world: FlappyBirdCloneWorld());
