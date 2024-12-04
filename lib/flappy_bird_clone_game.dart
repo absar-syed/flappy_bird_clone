@@ -20,9 +20,8 @@ class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
   Future<void> onLoad() async {
     await super.onLoad();
     FlameAudio.bgm.initialize();
-    await FlameAudio.audioCache.loadAll(['8-bit.mp3', 'coin.mp3']);
-    FlameAudio.bgm.stop();
-    FlameAudio.bgm.play('8-bit.mp3', volume: 0.7);
+    await FlameAudio.audioCache.loadAll(['8-bit.mp3', 'coin.mp3', 'quack.mp3']);
+    FlameAudio.bgm.play('8-bit.mp3', volume: 0.2);
   }
 }
 

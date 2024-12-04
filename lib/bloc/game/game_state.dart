@@ -21,4 +21,6 @@ enum PlayingState {
   playing,
   paused,
   gameOver,
+  settings,
+  customization,
 }

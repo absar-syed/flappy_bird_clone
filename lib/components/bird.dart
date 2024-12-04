@@ -54,6 +54,7 @@ class Bird extends SpriteAnimationComponent
     if (bloc.state.currentPlayingState != PlayingState.playing) {
       return;
     }
+    FlameAudio.play('quack.mp3', volume: 1.5);
     _velocity = _jumpValue;
   }
 

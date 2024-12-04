@@ -22,8 +22,16 @@ class GameCubit extends Cubit<GameState> {
     ));
   }
 
-  restartGame() {
+  void restartGame() {
     emit(state.copyWith(
         currentPlayingState: PlayingState.none, currentCoins: 0));
+  }
+
+  void settingsScreen() {
+    emit(state.copyWith(currentPlayingState: PlayingState.settings));
+  }
+
+  void customizationScreen() {
+    emit(state.copyWith(currentPlayingState: PlayingState.customization));
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flame/game.dart';
 import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/flappy_bird_clone_game.dart';
+import 'package:flappy_bird_clone/widgets/customization_widget.dart';
+import 'package:flappy_bird_clone/widgets/game_over_widget.dart';
+import 'package:flappy_bird_clone/widgets/home_screen_widget.dart';
+import 'package:flappy_bird_clone/widgets/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -28,7 +31,9 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<GameCubit, GameState>(listener: (context, state) {
       if (state.currentPlayingState == PlayingState.none &&
-          _latestState == PlayingState.gameOver) {
+              _latestState == PlayingState.gameOver ||
+          _latestState == PlayingState.settings ||
+          _latestState == PlayingState.customization) {
         setState(() {
           _flappyBirdCloneGame = FlappyBirdCloneGame(gameCubit);
         });
@@ -41,41 +46,13 @@ class _MainPageState extends State<MainPage> {
           GameWidget(game: _flappyBirdCloneGame),
           if (state.currentPlayingState ==
               PlayingState.gameOver) // Game over Screen
-            Container(
-              color: Colors.black38,
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'GAME OVER',
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  ElevatedButton(
-                      onPressed: () => gameCubit.restartGame(),
-                      child: const Text('Play Again!'))
-                ],
-              )),
-            ),
-          if (state.currentPlayingState == PlayingState.none) // Home Screen
-            Center(
-              child: Column(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(top: 100),
-                      child: Text(
-                        "FLAPPY BIRD CLONE",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.titanOne(
-                            fontSize: 50, color: Colors.white),
-                      ))
-                ],
-              ),
-            ),
+            GameOverWidget(gameCubit: gameCubit)
+          else if (state.currentPlayingState == PlayingState.none) // Home Screen
+            HomeScreenWidget(gameCubit: gameCubit)
+          else if (state.currentPlayingState == PlayingState.settings) // Setting screen
+            SettingScreen(gameCubit: gameCubit)
+          else if (state.currentPlayingState == PlayingState.customization) // Setting screen
+            CustomizationScreen(gameCubit: gameCubit)
         ],
       ));
     });
