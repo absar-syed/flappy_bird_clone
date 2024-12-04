@@ -3,6 +3,7 @@ import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/flappy_bird_clone_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -59,7 +60,22 @@ class _MainPageState extends State<MainPage> {
                       child: const Text('Play Again!'))
                 ],
               )),
-            )
+            ),
+          if (state.currentPlayingState == PlayingState.none) // Home Screen
+            Center(
+              child: Column(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Text(
+                        "FLAPPY BIRD CLONE",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.titanOne(
+                            fontSize: 50, color: Colors.white),
+                      ))
+                ],
+              ),
+            ),
         ],
       ));
     });
