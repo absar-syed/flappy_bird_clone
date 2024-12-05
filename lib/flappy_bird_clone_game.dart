@@ -10,6 +10,8 @@ import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
 import 'package:flappy_bird_clone/components/pipes.dart';
 
+
+
 class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
     with HasCollisionDetection {
   FlappyBirdCloneGame(this.gameCubit) : super(world: FlappyBirdCloneWorld());
