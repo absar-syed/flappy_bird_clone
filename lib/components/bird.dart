@@ -41,8 +41,7 @@ class Bird extends SpriteAnimationComponent
     super.update(dt);
     if (bloc.state.currentPlayingState == PlayingState.none) {
       return;
-    }
-    if (bloc.state.currentPlayingState == PlayingState.gameOver) {
+    } else if (bloc.state.currentPlayingState == PlayingState.gameOver) {
       animation?.loop = false;
       return;
     }

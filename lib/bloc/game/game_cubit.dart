@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 part 'game_state.dart';
 
@@ -33,5 +34,10 @@ class GameCubit extends Cubit<GameState> {
 
   void customizationScreen() {
     emit(state.copyWith(currentPlayingState: PlayingState.customization));
+  }
+
+  void signInScreen() {
+    emit(state.copyWith(currentPlayingState: PlayingState.signin));
+    debugPrint("state set to Sign In!!!!!!!!!!!!!");
   }
 }

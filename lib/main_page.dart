@@ -5,6 +5,7 @@ import 'package:flappy_bird_clone/widgets/customization_widget.dart';
 import 'package:flappy_bird_clone/widgets/game_over_widget.dart';
 import 'package:flappy_bird_clone/widgets/home_screen_widget.dart';
 import 'package:flappy_bird_clone/widgets/settings_screen.dart';
+import 'package:flappy_bird_clone/widgets/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,12 +48,18 @@ class _MainPageState extends State<MainPage> {
           if (state.currentPlayingState ==
               PlayingState.gameOver) // Game over Screen
             GameOverWidget(gameCubit: gameCubit)
-          else if (state.currentPlayingState == PlayingState.none) // Home Screen
+          else if (state.currentPlayingState ==
+              PlayingState.none) // Home Screen
             HomeScreenWidget(gameCubit: gameCubit)
-          else if (state.currentPlayingState == PlayingState.settings) // Setting screen
+          else if (state.currentPlayingState ==
+              PlayingState.settings) // Setting screen
             SettingScreen(gameCubit: gameCubit)
-          else if (state.currentPlayingState == PlayingState.customization) // Setting screen
+          else if (state.currentPlayingState ==
+              PlayingState.customization) // customization screen
             CustomizationScreen(gameCubit: gameCubit)
+          else if (state.currentPlayingState ==
+              PlayingState.signin) // Sign in screen
+            SignInScreen(gameCubit: gameCubit)
         ],
       ));
     });

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -9,14 +10,14 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
 import 'package:flappy_bird_clone/components/pipes.dart';
-
-
+import 'package:flappy_bird_clone/models/player.dart';
 
 class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
-    with HasCollisionDetection {
-  FlappyBirdCloneGame(this.gameCubit) : super(world: FlappyBirdCloneWorld());
+    with HasCollisionDetection{
+  FlappyBirdCloneGame(this.gameCubit, this.player) : super(world: FlappyBirdCloneWorld());
 
   final GameCubit gameCubit;
+  final UserCredential player;
 
   @override
   Future<void> onLoad() async {
@@ -24,6 +25,10 @@ class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
     FlameAudio.bgm.initialize();
     await FlameAudio.audioCache.loadAll(['8-bit.mp3', 'coin.mp3', 'quack.mp3']);
     FlameAudio.bgm.play('8-bit.mp3', volume: 0.2);
+    if () {
+        gameCubit.signInScreen();
+    }
+    
   }
 }
 

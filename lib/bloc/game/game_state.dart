@@ -23,4 +23,5 @@ enum PlayingState {
   gameOver,
   settings,
   customization,
+  signin
 }

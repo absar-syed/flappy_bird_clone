@@ -55,18 +55,14 @@ class PipePair extends PositionComponent
 
   @override
   void update(double dt) {
-    switch (bloc.state.currentPlayingState) {
-      case PlayingState.settings:
-      case PlayingState.customization:
-      case PlayingState.none:
-        break;
-      case PlayingState.paused:
-      case PlayingState.gameOver:
-        break;
-      case PlayingState.playing:
-        position.x -= speed * dt;
-        break;
-    }
     super.update(dt);
+    if (bloc.state.currentPlayingState == PlayingState.none) {
+      return;
+    } else if (bloc.state.currentPlayingState == PlayingState.gameOver) {
+      return;
+    } else if (bloc.state.currentPlayingState == PlayingState.playing) {
+      position.x -= speed * dt;
+      return;
+    }
   }
 }
