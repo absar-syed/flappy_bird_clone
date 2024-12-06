@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key, required this.gameCubit});
@@ -11,14 +11,25 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  Future<void> signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      debugPrint("User signed out successfully!");
-      // Navigate to the sign-in screen or update the UI as needed
-      Navigator.of(context).pushReplacementNamed('/sign-in'); // Adjust this as per your navigation setup
-    } catch (error) {
-      debugPrint("Error signing out: $error");
+  String? playerName;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPlayerName();
+  }
+
+  Future<void> _fetchPlayerName() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      setState(() {
+        playerName = user.displayName ?? "Anonymous";
+      });
+    } else {
+      setState(() {
+        playerName = "Guest";
+      });
     }
   }
 
@@ -34,17 +45,15 @@ class _SettingScreenState extends State<SettingScreen> {
               "Settings",
               style: TextStyle(fontSize: 70, color: Colors.white),
             ),
-            ElevatedButton(
-              onPressed: () => widget.gameCubit.restartGame(),
-              child: const Text("Go Back"),
+            const SizedBox(height: 20),
+            Text(
+              "Player Name: ${playerName ?? "Loading..."}",
+              style: const TextStyle(fontSize: 24, color: Colors.white),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: signOut,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              child: const Text("Sign Out"),
+              onPressed: () => widget.gameCubit.restartGame(),
+              child: const Text("Go Back"),
             ),
           ],
         ),
