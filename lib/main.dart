@@ -15,6 +15,7 @@ Future<void> main() async {
   FlameAudio.bgm.initialize();
   FlameAudio.audioCache
     .loadAll(['8-bit.mp3', 'coin.mp3', 'quack.mp3', 'gameover.mp3']);
+  
   Flame.device.fullScreen();
   Flame.device.setPortraitUpOnly();
   runApp(MyApp());

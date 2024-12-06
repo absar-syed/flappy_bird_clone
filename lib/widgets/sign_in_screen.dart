@@ -15,25 +15,6 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _usernameController = TextEditingController();
 
-  Future<void> attachAndSaveUsername(String username) async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      try {
-        // Update user profile with username
-        await user.updateDisplayName(username);
-        await user.reload();
-        debugPrint("Username attached: ${user.displayName}");
-
-        // Save player name to Firestore
-        await savePlayerName(username);
-        debugPrint("Player name saved to Firestore: $username");
-      } catch (error) {
-        debugPrint("Error saving username: $error");
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,16 +25,26 @@ class _SignInScreenState extends State<SignInScreen> {
             const Text(
               "Enter a Username!",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24, color: Colors.lightBlue),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
                 controller: _usernameController,
                 autofocus: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(iconColor: Colors.lightBlue,
                   labelText: "Username",
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.lightBlue,
+                        width: 2.0), 
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.lightBlue,
+                        width: 1.0), 
+                  ),
                 ),
               ),
             ),
@@ -61,14 +52,12 @@ class _SignInScreenState extends State<SignInScreen> {
               onPressed: () async {
                 User? user = await signInAnonymously();
                 if (user != null) {
-                  // Attach username and save it to Firestore
-                  await attachAndSaveUsername(_usernameController.text);
-
+                  await savePlayerName(_usernameController.text);
                   widget.gameCubit.restartGame();
                   debugPrint('User signed in successfully: ${user.uid}');
                 }
               },
-              child: const Text("Sign In"),
+              child: const Text("Sign In", style: TextStyle(color: Colors.lightBlue),),
             ),
           ],
         ),

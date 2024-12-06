@@ -37,8 +37,8 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void customizationScreen() {
-    emit(state.copyWith(currentPlayingState: PlayingState.customization));
-    debugPrint('STATE SET TO CUSTOMIZATION');
+    emit(state.copyWith(currentPlayingState: PlayingState.leaderboard));
+    debugPrint('STATE SET TO LEADERBOARD');
   }
 
   void signInScreen() {

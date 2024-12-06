@@ -29,7 +29,7 @@ class HomeScreenWidget extends StatelessWidget {
                               style: ButtonStyle(
                                   elevation: WidgetStatePropertyAll(20),
                                   backgroundColor:
-                                      WidgetStatePropertyAll(Colors.blueGrey),
+                                      WidgetStatePropertyAll(Colors.lightBlue),
                                   shadowColor:
                                       WidgetStatePropertyAll(Colors.black)),
                               onPressed: () => gameCubit.settingsScreen(),
@@ -42,11 +42,11 @@ class HomeScreenWidget extends StatelessWidget {
                               style: ButtonStyle(
                                   elevation: WidgetStatePropertyAll(20),
                                   backgroundColor:
-                                      WidgetStatePropertyAll(Colors.blueGrey),
+                                      WidgetStatePropertyAll(Colors.lightBlue),
                                   shadowColor:
                                       WidgetStatePropertyAll(Colors.black)),
                               onPressed: () => gameCubit.customizationScreen(),
-                              child: const Text("Customization",
+                              child: const Text("Leaderboard",
                                   style: TextStyle(color: Colors.white)))
                         ],
                       ))

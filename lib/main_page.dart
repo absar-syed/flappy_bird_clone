@@ -1,7 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/flappy_bird_clone_game.dart';
-import 'package:flappy_bird_clone/widgets/customization_widget.dart';
+import 'package:flappy_bird_clone/widgets/leaderboard_screen.dart';
 import 'package:flappy_bird_clone/widgets/game_over_widget.dart';
 import 'package:flappy_bird_clone/widgets/home_screen_widget.dart';
 import 'package:flappy_bird_clone/widgets/settings_screen.dart';
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
       if (state.currentPlayingState == PlayingState.none &&
               _latestState == PlayingState.gameOver ||
           _latestState == PlayingState.settings ||
-          _latestState == PlayingState.customization ||
+          _latestState == PlayingState.leaderboard ||
           _latestState == PlayingState.signin) {
         setState(() {
           _flappyBirdCloneGame = FlappyBirdCloneGame(gameCubit);
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
           GameWidget(game: _flappyBirdCloneGame),
           if (state.currentPlayingState ==
               PlayingState.gameOver) // Game over Screen
-            GameOverWidget(gameCubit: gameCubit)
+            GameOverWidget(gameCubit: gameCubit, currentCoins: gameCubit.state.currentCoins,)
           else if (state.currentPlayingState ==
               PlayingState.none) // Home Screen
             HomeScreenWidget(gameCubit: gameCubit)
@@ -56,8 +56,8 @@ class _MainPageState extends State<MainPage> {
               PlayingState.settings) // Setting screen
             SettingScreen(gameCubit: gameCubit)
           else if (state.currentPlayingState ==
-              PlayingState.customization) // customization screen
-            CustomizationScreen(gameCubit: gameCubit)
+              PlayingState.leaderboard) // customization screen
+            LeaderboardScreen(gameCubit: gameCubit)
           else if (state.currentPlayingState ==
               PlayingState.signin) // Sign in screen
             SignInScreen(gameCubit: gameCubit)

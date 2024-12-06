@@ -22,6 +22,6 @@ enum PlayingState {
   paused,
   gameOver,
   settings,
-  customization,
+  leaderboard,
   signin
 }

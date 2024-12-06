@@ -62,7 +62,7 @@ Future<Map<String, dynamic>> getLeaderboard() async {
       .get();
 
   final playerScoreSnapshot = await FirebaseFirestore.instance
-      .collection('scores')
+      .collection('players')
       .doc(user.uid)
       .get();
 

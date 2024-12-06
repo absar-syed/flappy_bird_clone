@@ -5,9 +5,9 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
+import 'package:flappy_bird_clone/components/audio_manager.dart';
 import 'package:flappy_bird_clone/components/bird.dart';
 import 'package:flappy_bird_clone/components/pipes.dart';
 import 'package:flutter/foundation.dart';
@@ -17,15 +17,17 @@ class FlappyBirdCloneGame extends FlameGame<FlappyBirdCloneWorld>
   FlappyBirdCloneGame(this.gameCubit) : super(world: FlappyBirdCloneWorld());
 
   final GameCubit gameCubit;
+  
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // add(SignInScreen(gameCubit: gameCubit) as Component);
+    AudioManager audioManager = AudioManager();
+    // debugPrint('${audioManager.isBgmPlaying}');
+    if (audioManager.isBgmPlaying) {
+        audioManager.playBgm();
+    }
     
-
-    FlameAudio.bgm.play('8-bit.mp3', volume: 0.2);
-
 
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
