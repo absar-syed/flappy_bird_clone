@@ -34,7 +34,8 @@ class _MainPageState extends State<MainPage> {
       if (state.currentPlayingState == PlayingState.none &&
               _latestState == PlayingState.gameOver ||
           _latestState == PlayingState.settings ||
-          _latestState == PlayingState.customization) {
+          _latestState == PlayingState.customization ||
+          _latestState == PlayingState.signin) {
         setState(() {
           _flappyBirdCloneGame = FlappyBirdCloneGame(gameCubit);
         });

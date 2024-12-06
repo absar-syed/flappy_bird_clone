@@ -12,7 +12,12 @@ class CustomizationScreen extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [const Text("Customization"), ElevatedButton(onPressed: () => gameCubit.restartGame(), child: const Text("Go Back") )],
+          children: [
+            const Text("Customization"),
+            ElevatedButton(
+                onPressed: () => gameCubit.restartGame(),
+                child: const Text("Go Back"))
+          ],
         ),
       ),
     );

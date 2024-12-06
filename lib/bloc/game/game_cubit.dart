@@ -11,10 +11,12 @@ class GameCubit extends Cubit<GameState> {
   void startPlaying() {
     emit(state.copyWith(
         currentPlayingState: PlayingState.playing, currentCoins: 0));
+        debugPrint('STATE SET TO PLAYING');
   }
 
   void gameOver() {
     emit(state.copyWith(currentPlayingState: PlayingState.gameOver));
+    debugPrint('STATE SET TO GAMEOVER');
   }
 
   void increaseCoins() {
@@ -26,18 +28,21 @@ class GameCubit extends Cubit<GameState> {
   void restartGame() {
     emit(state.copyWith(
         currentPlayingState: PlayingState.none, currentCoins: 0));
+        debugPrint('STATE SET TO NONE');
   }
 
   void settingsScreen() {
     emit(state.copyWith(currentPlayingState: PlayingState.settings));
+    debugPrint('STATE SET TO SETTINGS');
   }
 
   void customizationScreen() {
     emit(state.copyWith(currentPlayingState: PlayingState.customization));
+    debugPrint('STATE SET TO CUSTOMIZATION');
   }
 
   void signInScreen() {
     emit(state.copyWith(currentPlayingState: PlayingState.signin));
-    debugPrint("state set to Sign In!!!!!!!!!!!!!");
+    debugPrint("STATE SET TO SIGNIN");
   }
 }

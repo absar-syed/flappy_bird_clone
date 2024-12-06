@@ -1,4 +1,5 @@
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flappy_bird_clone/bloc/game/game_cubit.dart';
 import 'package:flappy_bird_clone/firebase_options.dart';
 import 'package:flappy_bird_clone/main_page.dart';
@@ -11,6 +12,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlameAudio.bgm.initialize();
+  FlameAudio.audioCache
+    .loadAll(['8-bit.mp3', 'coin.mp3', 'quack.mp3', 'gameover.mp3']);
   Flame.device.fullScreen();
   Flame.device.setPortraitUpOnly();
   runApp(MyApp());
